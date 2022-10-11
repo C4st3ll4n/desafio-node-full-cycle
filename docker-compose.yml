@@ -1,0 +1,52 @@
+version: '3.4'
+services:
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: always
+    tty: true
+    networks:
+      - fullcyclenet
+    volumes:
+      - .docker/mysql/var:/var/lib/mysql
+    command: --innodb-use-native-aio=0
+    environment:
+      - MYSQL_DATABASE=fullcycledb
+      - MYSQL_ROOT_PASSWORD=root
+
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    restart: always
+    networks:
+      - fullcyclenet
+    ports:
+      - 8080:80
+    depends_on:
+      - app
+      
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    networks:
+      - fullcyclenet
+    tty: true
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - db
+
+
+volumes:
+  node_modules:
+networks:
+  fullcyclenet:
+    driver: bridge

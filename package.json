@@ -1,0 +1,17 @@
+{
+    "name": "full-node-cycle-app",
+    "version": "0.0.1",
+    "description": "Full Cycle challenge",
+    "main": "index.js",
+    "scripts": {
+      "test": "exit 1",
+      "server": "docker-compose up -d"
+    },
+    "author": "Pedro Henrique",
+    "license": "MIT",
+    "dependencies": {
+      "express": "^4.17.1",
+      "mysql": "^2.18.1",
+      "moniker": "^0.1.2"
+    }
+  }
